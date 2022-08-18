@@ -2,11 +2,17 @@
 lvim is the global options object Linters should be filled in as strings with either a global executable or a path to
 an executable ]]
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
+
 -- Personal setting dashboard
-require "user.alpha" -- general lvim.log.level = "warn" vim.opt.relativenumber = true
+require "user.alpha"
+
+-- general
+lvim.log.level = "warn"
+vim.opt.relativenumber = true
 vim.opt.wrap = true
 vim.lsp.buf.format({ timeout_ms = 2000 })
 vim.o.guifont = "Hack Nerd Font"
+
 -- show diagnostic in a float window in menu <leader>lD
 lvim.builtin.which_key.mappings["lD"] = {
   "<cmd>lua vim.diagnostic.open_float()<CR>", "Diagnostic float"
