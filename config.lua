@@ -447,3 +447,12 @@ vim.g.symbols_outline = {
 --     require("nvim-treesitter.highlight").attach(0, "bash")
 --   end,
 -- })
+
+
+local pid = vim.fn.getpid()
+
+local omnisharp_bin = "/usr/local/bin/omnisharp-roslyn/OmniSharp"
+
+require 'lspconfig'.omnisharp.setup {
+  cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid) },
+}
