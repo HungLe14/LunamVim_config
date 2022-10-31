@@ -1,6 +1,11 @@
 --[[
-lvim is the global options object Linters should be filled in as strings with either a global executable or a path to
-an executable ]]
+lvim is the global options object
+
+Linters should be
+filled in as strings with either
+a global executable or a path to
+an executable
+]]
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
 
 -- Personal setting dashboard
@@ -8,10 +13,21 @@ require "user.alpha"
 
 -- general
 lvim.log.level = "warn"
+lvim.format_on_save = true
 vim.opt.relativenumber = true
 vim.opt.wrap = true
 vim.lsp.buf.format({ timeout_ms = 2000 })
 vim.o.guifont = "Hack Nerd Font"
+-- to disable icons and use a minimalist setup, uncomment the following
+-- lvim.use_icons = false
+
+-- keymappings [view all the defaults by pressing <leader>Lk]
+lvim.leader = "space"
+-- add your own keymapping
+lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+lvim.keys.normal_mode["<C-q>"] = ":q<cr>"
+lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
+lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
 
 -- show diagnostic in a float window in menu <leader>lD
 lvim.builtin.which_key.mappings["lD"] = {
@@ -26,7 +42,6 @@ lvim.builtin.which_key.mappings["W"] = { "<cmd>:lua require('nvim-window').pick(
 
 lvim.builtin.which_key.mappings["o"] = {
   name = "Others",
-  s = { "<cmd>SymbolsOutline<cr>", "Symbols Outline" },
   a = { "<cmd>CopyAbsolutePath<CR>", "Copy Absolute Path" }, r = { "<cmd>CopyRelPath<CR>", "Copy Relative Path" },
   n = { "<cmd>NvimTreeRefresh<CR>", "Refresh NvimTree" },
   b = { "<cmd>e<CR>", "Refresh Buffer" },
@@ -73,25 +88,14 @@ lvim.format_on_save = {
 
 -- colorscheme
 -- lvim.colorscheme = "dracula"
--- lvim.colorscheme = "tokyonight"
+lvim.colorscheme = "tokyonight"
 -- lvim.colorscheme = "nightfox"
-lvim.colorscheme = "catppuccin"
-vim.g.catppuccin_flavour = "macchiato"
 
--- set rainbow parentheses
-lvim.builtin.treesitter.rainbow.enable = false
-
--- to disable icons and use a minimalist setup, uncomment the following
--- lvim.use_icons = false
-
--- keymappings [view all the defaults by pressing <leader>Lk]
-lvim.leader = "space"
--- add your own keymapping
-lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- unmap a default keymapping
 -- vim.keymap.del("n", "<C-Up>")
 -- override a default keymapping
-lvim.keys.normal_mode["<C-q>"] = ":q!<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
+-- lvim.keys.normal_mode["<C-q>"] = ":q<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
+
 -- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
 -- we use protected-mode (pcall) just in case the plugin wasn't loaded yet.
 -- local _, actions = pcall(require, "telescope.actions")
@@ -119,7 +123,7 @@ lvim.keys.normal_mode["<C-q>"] = ":q!<cr>" -- or vim.keymap.set("n", "<C-q>", ":
 --   d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnostics" },
 --   q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
 --   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
---   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Wordspace Diagnostics" },
+--   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
 -- }
 
 -- TODO: User Config for predefined plugins
@@ -154,8 +158,22 @@ lvim.builtin.treesitter.highlight.enabled = true
 
 -- generic LSP settings
 
+-- -- make sure server will always be installed even if the server is in skipped_servers list
+-- lvim.lsp.installer.setup.ensure_installed = {
+--     "sumeko_lua",
+--     "jsonls",
+-- }
+-- -- change UI setting of `LspInstallInfo`
+-- -- see <https://github.com/williamboman/nvim-lsp-installer#default-configuration>
+-- lvim.lsp.installer.setup.ui.check_outdated_servers_on_open = false
+-- lvim.lsp.installer.setup.ui.border = "rounded"
+-- lvim.lsp.installer.setup.ui.keymaps = {
+--     uninstall_server = "d",
+--     toggle_server_expand = "o",
+-- }
+
 -- ---@usage disable automatic installation of servers
-lvim.lsp.automatic_servers_installation = true
+-- lvim.lsp.installer.setup.automatic_installation = false
 
 -- ---configure a server manually. !!Requires `:LvimCacheReset` to take effect!!
 -- ---see the full default list `:lua print(vim.inspect(lvim.lsp.automatic_configuration.skipped_servers))`
@@ -164,8 +182,8 @@ lvim.lsp.automatic_servers_installation = true
 -- require("lvim.lsp.manager").setup("pyright", opts)
 
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. !!Requires `:LvimCacheReset` to take effect!!
--- ---`:LvimInfo` lists which server(s) are skiipped for the current filetype
--- vim.tbl_map(function(server)
+-- ---`:LvimInfo` lists which server(s) are skipped for the current filetype
+-- lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
 --   return server ~= "emmet_ls"
 -- end, lvim.lsp.automatic_configuration.skipped_servers)
 
@@ -188,20 +206,13 @@ local sources = {
 }
 null_ls.register({ sources = sources })
 
+-- linter and formatter for terraform
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "terraform-ls" })
+require("lspconfig").terraformls.setup({})
+
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
-  --   { command = "black", filetypes = { "python" } },
-  --   { command = "isort", filetypes = { "python" } },
-  --   {
-  --     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
-  --     command = "prettier",
-  --     ---@usage arguments to pass to the formatter
-  --     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
-  --     extra_args = { "--print-with", "100" },
-  --     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
-  --     filetypes = { "typescript", "typescriptreact" },
-  --   },
   {
     command = "prettierd",
     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
@@ -209,25 +220,11 @@ formatters.setup {
   }
 }
 
--- -- set additional linters
+-- set additional linters
 local linters = require "lvim.lsp.null-ls.linters"
 linters.setup {
-  -- { command = "flake8", filetypes = { "python" } },
-  --   {
-  --     -- each linter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
-  --     command = "shellcheck",
-  --     ---@usage arguments to pass to the formatter
-  --     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
-  --     extra_args = { "--severity", "warning" },
-  --   },
-  --   {
-  --     command = "codespell",
-  --     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
-  --     filetypes = { "javascript", "python" },
-  --   },
   {
     command = "eslint_d",
-    ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
     filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" }
   }
 }
@@ -239,6 +236,21 @@ code_actions.setup {
     command = "eslint_d",
     filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" }
   }
+}
+
+-- -- set linter for C#
+
+local pid = vim.fn.getpid()
+local omnisharp_bin = "/usr/local/bin/omnisharp-roslyn/OmniSharp"
+require 'lspconfig'.omnisharp.setup {
+  cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid) },
+}
+
+require 'lspconfig'.jdtls.setup {
+  cmd = { 'jdtls' },
+  root_dir = function(fname)
+    return require 'lspconfig'.util.root_pattern('pom.xml', 'gradle.build', '.git')(fname) or vim.fn.getcwd()
+  end
 }
 
 -- Additional Plugins
@@ -332,13 +344,12 @@ lvim.plugins = {
         }
       }
     })
-  end },
+  end
+  },
   {
-    "simrat39/symbols-outline.nvim",
-    cmd = "SymbolsOutline",
-  }, {
     "nvim-telescope/telescope-file-browser.nvim"
-  }, {
+  },
+  {
     "tpope/vim-surround",
     -- make sure to change the value of `timeoutlen` if it's not triggering correctly, see https://github.com/tpope/vim-surround/issues/117
     setup = function()
@@ -380,59 +391,6 @@ lvim.builtin.lualine.sections.lualine_x = { 'diagnostics', components.lsp, 'file
 lvim.builtin.lualine.sections.lualine_y = { { "progress", padding = 1 } }
 lvim.builtin.lualine.sections.lualine_z = { { "location", padding = 1 } }
 
--- config SymbolsOutline
-vim.g.symbols_outline = {
-  highlight_hovered_item = true,
-  show_guides = true,
-  auto_preview = true,
-  position = 'right',
-  relative_width = true,
-  width = 25,
-  auto_close = false,
-  show_numbers = false,
-  show_relative_numbers = false,
-  show_symbol_details = true,
-  preview_bg_highlight = 'Pmenu',
-  keymaps = { -- These keymaps can be a string or a table for multiple keys
-    close = { "<Esc>", "q" },
-    goto_location = "<Cr>",
-    focus_location = "o",
-    hover_symbol = "<C-space>",
-    toggle_preview = "K",
-    rename_symbol = "r",
-    code_actions = "a",
-  },
-  lsp_blacklist = {},
-  symbol_blacklist = {},
-  symbols = {
-    File = { icon = "", hl = "TSURI" },
-    Module = { icon = "", hl = "TSNamespace" },
-    Namespace = { icon = "", hl = "TSNamespace" },
-    Package = { icon = "", hl = "TSNamespace" },
-    Class = { icon = "𝓒", hl = "TSType" },
-    Method = { icon = "ƒ", hl = "TSMethod" },
-    Property = { icon = "", hl = "TSMethod" },
-    Field = { icon = "", hl = "TSField" },
-    Constructor = { icon = "", hl = "TSConstructor" },
-    Enum = { icon = "ℰ", hl = "TSType" },
-    Interface = { icon = "ﰮ", hl = "TSType" },
-    Function = { icon = "", hl = "TSFunction" },
-    Variable = { icon = "", hl = "TSConstant" },
-    Constant = { icon = "", hl = "TSConstant" },
-    String = { icon = "𝓐", hl = "TSString" },
-    Number = { icon = "#", hl = "TSNumber" },
-    Boolean = { icon = "⊨", hl = "TSBoolean" },
-    Array = { icon = "", hl = "TSConstant" },
-    Object = { icon = "⦿", hl = "TSType" },
-    Key = { icon = "🔐", hl = "TSType" },
-    Null = { icon = "NULL", hl = "TSType" },
-    EnumMember = { icon = "", hl = "TSField" },
-    Struct = { icon = "𝓢", hl = "TSType" },
-    Event = { icon = "🗲", hl = "TSType" },
-    Operator = { icon = "+", hl = "TSOperator" },
-    TypeParameter = { icon = "𝙏", hl = "TSParameter" }
-  }
-}
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- vim.api.nvim_create_autocmd("BufEnter", {
@@ -447,12 +405,3 @@ vim.g.symbols_outline = {
 --     require("nvim-treesitter.highlight").attach(0, "bash")
 --   end,
 -- })
-
-
-local pid = vim.fn.getpid()
-
-local omnisharp_bin = "/usr/local/bin/omnisharp-roslyn/OmniSharp"
-
-require 'lspconfig'.omnisharp.setup {
-  cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid) },
-}
