@@ -69,7 +69,6 @@ lvim.builtin.which_key.mappings["t"] = {
 vim.api.nvim_create_user_command("CopyAbsolutePath", function()
   local path = vim.fn.expand("%:p")
   vim.fn.setreg("+", path)
-  vim.notify('Copied "' .. path .. '" to the clipboard!')
 end, {})
 vim.api.nvim_create_user_command("CopyRelPath",
   function()
@@ -77,7 +76,6 @@ vim.api.nvim_create_user_command("CopyRelPath",
     local path = vim.fn.expand("%:p")
     vim.fn.setreg("+", vim.fn.fnamemodify(path, ":."))
     -- vim.api.nvim_call_function("setreg", { "+", vim.fn.fnamemodify(vim.fn.expand("%"), ":.") })
-    vim.notify('Copied "' .. vim.fn.fnamemodify(path, ":.") .. '" to the clipboard!')
   end, {})
 
 -- format on save
@@ -130,7 +128,6 @@ lvim.colorscheme = "tokyonight"
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
-lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
