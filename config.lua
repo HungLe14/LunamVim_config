@@ -78,8 +78,7 @@ lvim.format_on_save = {
 -- lvim.colorscheme = "dracula"
 -- lvim.colorscheme = "tokyonight"
 -- lvim.colorscheme = "nightfox"
-lvim.colorscheme = "catppuccin"
-vim.g.catppuccin_flavour = "macchiato"
+lvim.colorscheme = "catppuccin-macchiato"
 
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
