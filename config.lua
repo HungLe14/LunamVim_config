@@ -14,6 +14,8 @@ vim.o.guifont = "Hack Nerd Font"
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 -- add your own keymapping
+lvim.keys.normal_mode["<C-j>"] = ":m +1<cr>"
+lvim.keys.normal_mode["<C-k>"] = ":m -2<cr>"
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.keys.normal_mode["<C-q>"] = ":q<cr>"
 lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
