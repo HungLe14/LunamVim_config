@@ -14,8 +14,8 @@ vim.o.guifont = "Hack Nerd Font"
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 -- add your own keymapping
-lvim.keys.normal_mode["<C-j>"] = ":m +1<cr>"
-lvim.keys.normal_mode["<C-k>"] = ":m -2<cr>"
+lvim.keys.visual_block_mode['J'] = ":move '>+1<CR>gv-gv"
+lvim.keys.visual_block_mode['K'] = ":move '<-2<CR>gv-gv"
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.keys.normal_mode["<C-q>"] = ":q<cr>"
 lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
@@ -111,17 +111,19 @@ lvim.builtin.treesitter.highlight.enabled = true
 lvim.lsp.installer.setup.automatic_installation = false
 
 -- linter and formatter for ruby
--- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "solargraph" })
--- require("lspconfig").solargraph.setup({})
--- local null_ls = require("null-ls")
--- local sources = {
---   null_ls.builtins.diagnostics.rubocop,
--- }
--- null_ls.register({ sources = sources })
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "solargraph" })
+require("lspconfig").solargraph.setup({})
+local null_ls = require("null-ls")
+local sources = {
+  null_ls.builtins.diagnostics.rubocop,
+}
+null_ls.register({ sources = sources })
 
 -- linter and formatter for terraform
 -- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "terraform-ls" })
 -- require("lspconfig").terraformls.setup({})
+
+require("lspconfig").tsserver.setup({})
 
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
 local formatters = require "lvim.lsp.null-ls.formatters"
