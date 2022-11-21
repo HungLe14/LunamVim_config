@@ -20,6 +20,7 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.keys.normal_mode["<C-q>"] = ":q<cr>"
 lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
 lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
+lvim.keys.normal_mode["<C-t>"] = ":ToggleTerm<CR>"
 
 -- show diagnostic in a float window in menu <leader>lD
 lvim.builtin.which_key.mappings["lD"] = {
