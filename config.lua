@@ -71,12 +71,6 @@ vim.api.nvim_create_user_command("CopyRelPath",
     -- vim.api.nvim_call_function("setreg", { "+", vim.fn.fnamemodify(vim.fn.expand("%"), ":.") })
   end, {})
 
--- format on save
-lvim.format_on_save = {
-  pattern = "*",
-  timeout = 2000,
-}
-
 -- colorscheme
 -- lvim.colorscheme = "dracula"
 -- lvim.colorscheme = "tokyonight"
@@ -124,7 +118,7 @@ null_ls.register({ sources = sources })
 -- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "terraform-ls" })
 -- require("lspconfig").terraformls.setup({})
 
-require("lspconfig").tsserver.setup({})
+-- require("lspconfig").tsserver.setup({})
 
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
 local formatters = require "lvim.lsp.null-ls.formatters"
