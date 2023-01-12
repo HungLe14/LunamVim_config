@@ -105,13 +105,13 @@ lvim.builtin.treesitter.highlight.enabled = true
 lvim.lsp.installer.setup.automatic_installation = false
 
 -- linter and formatter for ruby
-vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "solargraph" })
-require("lspconfig").solargraph.setup({})
-local null_ls = require("null-ls")
-local sources = {
-  null_ls.builtins.diagnostics.rubocop,
-}
-null_ls.register({ sources = sources })
+-- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "solargraph" })
+-- require("lspconfig").solargraph.setup({})
+-- local null_ls = require("null-ls")
+-- local sources = {
+--   null_ls.builtins.diagnostics.rubocop,
+-- }
+-- null_ls.register({ sources = sources })
 
 -- linter and formatter for terraform
 -- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "terraform-ls" })
@@ -145,14 +145,6 @@ code_actions.setup {
     command = "eslint_d",
     filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" }
   }
-}
-
--- -- set linter for C#
-
-local pid = vim.fn.getpid()
-local omnisharp_bin = "/usr/local/bin/omnisharp-roslyn/OmniSharp"
-require 'lspconfig'.omnisharp.setup {
-  cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid) },
 }
 
 require 'lspconfig'.jdtls.setup {
