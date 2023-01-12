@@ -265,12 +265,6 @@ require('nvim-window').setup({
   border = 'single'
 })
 
--- add file_browser to telescope
-lvim.builtin.telescope.on_config_done = function(telescope)
-  pcall(telescope.load_extension, "file_browser")
-  -- any other extensions loading
-end
-
 -- override file_browser of telescope project
 local file_browser = require('telescope').load_extension('file_browser')
 require('telescope.builtin').file_browser = file_browser.file_browser
