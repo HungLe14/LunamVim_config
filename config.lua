@@ -62,12 +62,14 @@ lvim.builtin.which_key.mappings["t"] = {
 vim.api.nvim_create_user_command("CopyAbsolutePath", function()
   local path = vim.fn.expand("%:p")
   vim.fn.setreg("+", path)
+  require("notify")("Copy path:" .. path)
 end, {})
 vim.api.nvim_create_user_command("CopyRelPath",
   function()
 
     local path = vim.fn.expand("%:p")
     vim.fn.setreg("+", vim.fn.fnamemodify(path, ":."))
+    require("notify")("Copy path:" .. path)
     -- vim.api.nvim_call_function("setreg", { "+", vim.fn.fnamemodify(vim.fn.expand("%"), ":.") })
   end, {})
 
@@ -254,6 +256,9 @@ lvim.plugins = {
   {
     "https://gitlab.com/yorickpeterse/nvim-window.git"
   },
+  {
+    'rcarriga/nvim-notify'
+  }
 }
 
 -- config window picker
