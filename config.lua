@@ -61,15 +61,12 @@ lvim.builtin.which_key.mappings["t"] = {
 -- Function using to copy file path
 vim.api.nvim_create_user_command("CopyAbsolutePath", function()
   local path = vim.fn.expand("%:p")
-  vim.fn.setreg("+", path)
   require("notify")("Copy path:" .. path)
 end, {})
 vim.api.nvim_create_user_command("CopyRelPath",
   function()
 
-    local path = vim.fn.expand("%:p")
-    vim.fn.setreg("+", vim.fn.fnamemodify(path, ":."))
-    vim.api.nvim_call_function("setreg", { "+", vim.fn.fnamemodify(vim.fn.expand("%"), ":.") })
+    local path = vim.fn.expand("%")
     require("notify")("Copy path:" .. path)
   end, {})
 
