@@ -8,6 +8,7 @@ vim.opt.relativenumber = true
 vim.opt.wrap = true
 vim.lsp.buf.format({ timeout_ms = 2000 })
 vim.o.guifont = "Hack Nerd Font"
+lvim.lsp.automatic_servers_installation = true
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -62,19 +63,20 @@ lvim.builtin.which_key.mappings["t"] = {
 vim.api.nvim_create_user_command("CopyAbsolutePath", function()
   local path = vim.fn.expand("%:p")
   require("notify")("Copy path:" .. path)
+  vim.fn.setreg("+", path)
 end, {})
 vim.api.nvim_create_user_command("CopyRelPath",
   function()
-
     local path = vim.fn.expand("%")
     require("notify")("Copy path:" .. path)
+    vim.fn.setreg("+", vim.fn.fnamemodify(path, ":."))
   end, {})
 
 -- colorscheme
 -- lvim.colorscheme = "dracula"
--- lvim.colorscheme = "tokyonight"
+lvim.colorscheme = "tokyonight"
 -- lvim.colorscheme = "nightfox"
-lvim.colorscheme = "catppuccin-macchiato"
+-- lvim.colorscheme = "catppuccin-macchiato"
 
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
@@ -125,7 +127,7 @@ formatters.setup {
   {
     command = "prettierd",
     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
-    filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "css", "scss", "html", "json", "yaml" },
+    filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "css", "scss", "html", "json", "yaml", "graphql" },
   }
 }
 
@@ -135,6 +137,10 @@ linters.setup {
   {
     command = "eslint_d",
     filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" }
+  },
+  {
+    command = "hadolint",
+    filetypes = { "dockerfile" }
   }
 }
 
