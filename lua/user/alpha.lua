@@ -168,7 +168,7 @@ local buttons = {
     dashboard.button("SPC P", "  Recent Projects ", ":Telescope projects<CR>"),
     dashboard.button("SPC s r", "  Recently Used Files", ":Telescope oldfiles<CR>"),
     dashboard.button("SPC s t", "  Find Word", ":Telescope live_grep<CR>"),
-    dashboard.button("SPC P u", "  Update Package", ":PackerUpdate<CR>"),
+    dashboard.button("SPC P u", "  Update Package", ":Lazy<CR>"),
     dashboard.button("SPC L u", "ﮮ  Update Lvim", ":LvimUpdate<CR>"),
     dashboard.button("SPC L c", "  Configuration", ":edit " .. user_config_path .. "<CR>"),
   },
