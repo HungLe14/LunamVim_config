@@ -8,7 +8,6 @@ vim.opt.relativenumber = true
 vim.opt.wrap = true
 vim.lsp.buf.format({ timeout_ms = 2000 })
 vim.o.guifont = "Hack Nerd Font"
-lvim.lsp.automatic_servers_installation = true
 -- to disable icons and use a minimalist setup, uncomment the following lvim.use_icons = false
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
@@ -142,7 +141,25 @@ linters.setup {
     filetypes = {
       "javascript", "javascriptreact", "typescript", "typescriptreact"
     }
-  }, { command = "hadolint", filetypes = { "dockerfile" } }
+  }, {
+  command = "hadolint",
+  filetypes = { "dockerfile" }
+}
+,
+  {
+    command = "cfn-lint",
+    filetypes = {
+      "yaml, json"
+    }
+  },
+
+  {
+    command = "yamllint",
+    filetypes = {
+      "yaml"
+    }
+  }
+
 }
 
 -- -- set additional code actions
@@ -153,8 +170,7 @@ code_actions.setup {
     filetypes = {
       "javascript", "javascriptreact", "typescript", "typescriptreact"
     }
-  }
-}
+  } }
 
 require 'lspconfig'.jdtls.setup {
   cmd = { 'jdtls' },
@@ -169,7 +185,7 @@ require 'lspconfig'.jdtls.setup {
 lvim.plugins = {
   { "EdenEast/nightfox.nvim" }, { "dracula/vim" }, { "catppuccin/nvim" }, {
   "windwp/nvim-ts-autotag",
-  config = function() require("nvim-ts-autotag").setup() end
+  config = function() require("nvim-ts-autotag").init() end
 }, {
   "phaazon/hop.nvim",
   event = "BufRead",
@@ -220,7 +236,7 @@ lvim.plugins = {
   config = function() require "lsp_signature".on_attach() end
 }, { "sindrets/diffview.nvim",                 event = "BufRead" }, {
   'akinsho/git-conflict.nvim',
-  tag = "*",
+  version = "*",
   config = function()
     require('git-conflict').setup({
       {
@@ -238,7 +254,7 @@ lvim.plugins = {
   "tpope/vim-surround",
   -- make sure to change the value of `timeoutlen` if it's not triggering correctly, see https://github.com/tpope/vim-surround/issues/117
   setup = function() vim.o.timeoutlen = 500 end
-}, { "https://gitlab.com/yorickpeterse/nvim-window.git" },
+}, { url = "https://gitlab.com/yorickpeterse/nvim-window.git" },
   { 'rcarriga/nvim-notify' }, {
   "jackMort/ChatGPT.nvim",
   config = function()
@@ -255,7 +271,7 @@ lvim.plugins = {
         },
       },
       chat = {
-        welcome_message = WELCOME_MESSAGE,
+        welcome_message = 'WELCOME_MESSAGE',
         loading_text = "Loading, please wait ...",
         question_sign = "", -- 🙂
         answer_sign = "ﮧ", -- 🤖
@@ -351,18 +367,18 @@ lvim.plugins = {
       predefined_chat_gpt_prompts = "https://raw.githubusercontent.com/f/awesome-chatgpt-prompts/main/prompts.csv",
     })
   end,
-  requires = {
+  dependencies = {
     "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim",
     "nvim-telescope/telescope.nvim"
   }
 }, {
   'samodostal/image.nvim',
-  requires = {
+  dependencies = {
     'nvim-lua/plenary.nvim'
   },
 },
   {
-    'm00qek/baleia.nvim', tag = 'v1.3.0'
+    'm00qek/baleia.nvim', version = 'v1.3.0'
   }
 }
 
